@@ -1,2 +1,21 @@
 # circles-cept-form-builder
-An administration form builder to allow the creation of JSON objects that will build forms that Circle leaders will use. 
+
+> A meta form builder for Circles admins to create Cliff effect planning forms for circle leaders.
+
+## Build Setup
+
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+```
+
+For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
