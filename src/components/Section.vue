@@ -1,7 +1,10 @@
 <template>
   <div class="section">
     <h2>Section Name: {{ section.name }}</h2>
-    <input @keyup="changeSectionName($event)" type="text">
+    <input
+      @keyup.enter="changeSectionName($event)"
+      type="text"
+      :value="section.name">
     <button @click="addQuestion($event)">Add Section</button>
   </div>
 </template>
