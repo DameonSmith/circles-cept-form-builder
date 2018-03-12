@@ -16,6 +16,9 @@ const store = new Vuex.Store({
     changePage1(state) {
       state.pages['page-1'].name = 'A thing';
     },
+    changePageName(state, { pageKey, newName }) {
+      state.pages[pageKey].name = newName;
+    },
   },
 });
 

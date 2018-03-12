@@ -5,9 +5,10 @@
     </div>
     <div class="pages">
       <pageForm
-        v-for="page in pages"
+        v-for="(page, pageKey) in pages"
         :page="page"
-        :key="page.name"></pageForm>
+        :pageKey="pageKey"
+        :key="pageKey"></pageForm>
     </div>
 
 

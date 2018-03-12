@@ -1,7 +1,8 @@
 <template>
   <div class="page">
     <h2>Page Name: {{ page.name }}</h2>
-    <button v-on:click="addSection">button</button>
+    <input @keyup="changePageName" type="text">
+    <button @click="addSection($event)">Add Section</button>
   </div>
 </template>
 
@@ -10,6 +11,7 @@
 export default {
   props: [
     'page',
+    'pageKey'
   ],
   computed: {
     pageObj() {
@@ -19,6 +21,13 @@ export default {
   methods: {
     addSection() {
       this.$store.commit('changePage1');
+    },
+    changePageName(event) {
+      const payload = {
+        pageKey: this.pageKey,
+        newName: event.target.value,
+      };
+      this.$store.commit('changePageName', payload);
     },
   },
 };
