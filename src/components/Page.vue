@@ -31,7 +31,8 @@ export default {
   },
   methods: {
     addSection() {
-      this.$store.commit('changePage1');
+      const { pageKey } = this;
+      this.$store.commit('addSection', { pageKey });
     },
     changePageName(event) {
       const payload = {

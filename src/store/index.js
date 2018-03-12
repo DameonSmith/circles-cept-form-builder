@@ -27,6 +27,15 @@ const store = new Vuex.Store({
     changePageName(state, { pageKey, newName }) {
       state.pages[pageKey].name = newName;
     },
+    addSection(state, { pageKey }) {
+
+      const sections = state.pages[pageKey].sections;
+      state.pages[pageKey].sections = Object.assign({}, sections, {
+        'new-section': {
+          name: 'test',
+        },
+      });
+    },
     changeSectionName(state, { pageKey, sectionKey, newName }) {
       state.pages[pageKey].sections[sectionKey].name = newName;
     },
