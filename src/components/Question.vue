@@ -1,0 +1,72 @@
+<template>
+  <div class="question">
+    <h2>Question Name: {{ question.label }}</h2>
+    <input
+      @keyup.enter="changeQuestionLabel($event)"
+      type="text"
+      :value="question.label">
+      <select
+        @change="changeType($event)"
+        :value="question.type">
+        <option value="text">Text</option>
+        <option value="number">Number</option>
+        <option value="select">Select</option>
+        <option value="radio">Radio</option>
+      </select>
+      <div
+        v-if="question.type === 'select'"
+        class="select">
+        IS SELECT
+      </div>
+      <div
+        v-if="question.type === 'radio'"
+        class="radio">
+        IS RADIO
+      </div>
+  </div>
+</template>
+
+
+<script>
+export default {
+  props: [
+    'question',
+    'questionKey',
+    'sectionKey',
+    'pageKey',
+  ],
+  computed: {
+    pageObj() {
+      return this.$store.state.pageObj;
+    },
+  },
+  methods: {
+    changeType(event) {
+      const payload = {
+        pageKey: this.pageKey,
+        sectionKey: this.sectionKey,
+        questionKey: this.questionKey,
+        newType: event.target.value,
+      };
+
+      this.$store.commit('changeQuestionType', payload);
+    },
+    changeQuestionLabel(event) {
+      const payload = {
+        pageKey: this.pageKey,
+        sectionKey: this.sectionKey,
+        questionKey: this.questionKey,
+        newLabel: event.target.value,
+      };
+      this.$store.commit('changeQuestionLabel', payload);
+    },
+  },
+};
+</script>
+
+
+<style>
+
+
+</style>
+

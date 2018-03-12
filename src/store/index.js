@@ -19,7 +19,11 @@ const reassignKeyAndName =
     });
 
     return newObject;
-  };
+};
+
+const makeNewKey = (oldKey) => {
+  return oldKey.toLowerCase().replace(/ /g, '-');
+}
 
 const store = new Vuex.Store({
   strict: true,
@@ -29,10 +33,12 @@ const store = new Vuex.Store({
         name: 'income',
         sections: {
           gross: {
-            name: 'Gross',
+            name: 'Gross Income',
+            questions: {},
           },
           'net-income': {
-            name: 'Net',
+            name: 'Net Income',
+            questions: {},
           },
         },
       },
@@ -44,7 +50,7 @@ const store = new Vuex.Store({
     },
     changePageName(state, { pageKey, newName }) {
       const pages = state.pages;
-      const newKey = newName.toLowerCase().replace(' ', '-');
+      const newKey = makeNewKey(newName);
 
       state.pages =
         reassignKeyAndName(pages, pageKey, newKey, newName, 'name');
@@ -53,16 +59,39 @@ const store = new Vuex.Store({
       const sections = state.pages[pageKey].sections;
       state.pages[pageKey].sections = Object.assign({}, sections, {
         'new-section': {
-          name: 'test',
+          name: 'New Section',
+          questions: {},
         },
       });
     },
     changeSectionName(state, { pageKey, sectionKey, newName }) {
       const sections = state.pages[pageKey].sections;
-      const newKey = newName.toLowerCase().replace(' ', '-');
+      const newKey = makeNewKey(newName);
 
       state.pages[pageKey].sections =
         reassignKeyAndName(sections, sectionKey, newKey, newName, 'name');
+    },
+    addQuestion(state, { pageKey, sectionKey }) {
+      const questions = state.pages[pageKey].sections[sectionKey].questions;
+
+      state.pages[pageKey].sections[sectionKey].questions =
+        Object.assign({}, questions, {
+          'new-question': {
+            label: 'New Question',
+            value: '',
+            type: 'text',
+          },
+        });
+    },
+    changeQuestionLabel(state, { pageKey, sectionKey, questionKey, newLabel }) {
+      const questions = state.pages[pageKey].sections[sectionKey].questions;
+      const newKey = makeNewKey(newLabel);
+
+      state.pages[pageKey].sections[sectionKey].questions =
+        reassignKeyAndName(questions, questionKey, newKey, newLabel, 'label');
+    },
+    changeQuestionType(state, { pageKey, sectionKey, questionKey, newType }) {
+      state.pages[pageKey].sections[sectionKey].questions[questionKey].type = newType;
     },
   },
 });
