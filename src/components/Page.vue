@@ -1,17 +1,28 @@
 <template>
   <div class="page">
     <h2>Page Name: {{ page.name }}</h2>
-    <input @keyup="changePageName" type="text">
+    <input @keyup="changePageName($event)" type="text">
+    <app-section
+      v-for="(section, sectionKey) in page.sections"
+      :section="section"
+      :sectionKey="sectionKey"
+      :pageKey="pageKey"
+      :key="sectionKey"></app-section>
     <button @click="addSection($event)">Add Section</button>
   </div>
 </template>
 
 
 <script>
+import Section from './Section';
+
 export default {
+  components: {
+    'app-section': Section,
+  },
   props: [
     'page',
-    'pageKey'
+    'pageKey',
   ],
   computed: {
     pageObj() {
@@ -34,7 +45,7 @@ export default {
 </script>
 
 
- <style>
+<style>
 
 
 </style>

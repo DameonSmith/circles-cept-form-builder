@@ -9,6 +9,14 @@ const store = new Vuex.Store({
     pages: {
       'page-1': {
         name: 'income',
+        sections: {
+          'gross-income': {
+            name: 'Gross',
+          },
+          'net-income': {
+            name: 'Net',
+          },
+        },
       },
     },
   },
@@ -18,6 +26,9 @@ const store = new Vuex.Store({
     },
     changePageName(state, { pageKey, newName }) {
       state.pages[pageKey].name = newName;
+    },
+    changeSectionName(state, { pageKey, sectionKey, newName }) {
+      state.pages[pageKey].sections[sectionKey].name = newName;
     },
   },
 });
