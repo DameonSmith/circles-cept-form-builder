@@ -1,7 +1,10 @@
 <template>
   <div class="page">
     <h2>Page Name: {{ page.name }}</h2>
-    <input @keyup.enter="changePageName($event)" type="text">
+    <input
+      @keyup.enter="changePageName($event)"
+      type="text"
+      :value="page.name">
     <app-section
       v-for="(section, sectionKey) in page.sections"
       :section="section"
