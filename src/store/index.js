@@ -47,6 +47,7 @@ const store = new Vuex.Store({
     changePage1(state) {
       state.pages['page-1'].name = 'A thing';
     },
+
     changePageName(state, { pageKey, newName }) {
       const pages = state.pages;
       const newKey = makeNewKey(newName);
@@ -54,6 +55,7 @@ const store = new Vuex.Store({
       state.pages =
         reassignKeyAndName(pages, pageKey, newKey, newName, 'name');
     },
+
     addSection(state, { pageKey }) {
       const sections = state.pages[pageKey].sections;
       state.pages[pageKey].sections = Object.assign({}, sections, {
@@ -63,6 +65,7 @@ const store = new Vuex.Store({
         },
       });
     },
+
     changeSectionName(state, { pageKey, sectionKey, newName }) {
       const sections = state.pages[pageKey].sections;
       const newKey = makeNewKey(newName);
@@ -70,6 +73,7 @@ const store = new Vuex.Store({
       state.pages[pageKey].sections =
         reassignKeyAndName(sections, sectionKey, newKey, newName, 'name');
     },
+
     addQuestion(state, { pageKey, sectionKey }) {
       const questions = state.pages[pageKey].sections[sectionKey].questions;
 
@@ -79,9 +83,11 @@ const store = new Vuex.Store({
             label: 'New Question',
             value: '',
             type: 'text',
+            description: 'description',
           },
         });
     },
+
     [QUESTION.CHANGE_LABEL]: (state, { pageKey, sectionKey, questionKey, newLabel }) => {
       const questions = state.pages[pageKey].sections[sectionKey].questions;
       const newKey = makeNewKey(newLabel);
@@ -89,8 +95,16 @@ const store = new Vuex.Store({
       state.pages[pageKey].sections[sectionKey].questions =
         reassignKeyAndName(questions, questionKey, newKey, newLabel, 'label');
     },
+
     [QUESTION.CHANGE_TYPE]: (state, { pageKey, sectionKey, questionKey, newType }) => {
       state.pages[pageKey].sections[sectionKey].questions[questionKey].type = newType;
+    },
+
+    [QUESTION.CHANGE_DESCRIPTION]: (
+      state,
+      { pageKey, sectionKey, questionKey, newDescription },
+    ) => {
+      state.pages[pageKey].sections[sectionKey].questions[questionKey].description = newDescription;
     },
   },
 });

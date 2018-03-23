@@ -5,6 +5,12 @@
       @keyup.enter="changeQuestionLabel($event)"
       type="text"
       :value="question.label">
+
+    <h6>Question Description: {{ question.description }}</h6>
+    <input
+      @keyup.enter="changeQuestionDescription($event)"
+      type="text"
+      :value="question.description">
       <select
         @change="changeType($event)"
         :value="question.type">
