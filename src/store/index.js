@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import QUESTION from './actions/questions';
 
 Vue.use(Vuex);
 
@@ -19,11 +20,9 @@ const reassignKeyAndName =
     });
 
     return newObject;
-};
+  };
 
-const makeNewKey = (oldKey) => {
-  return oldKey.toLowerCase().replace(/ /g, '-');
-}
+const makeNewKey = oldKey => oldKey.toLowerCase().replace(/ /g, '-');
 
 const store = new Vuex.Store({
   strict: true,
@@ -83,14 +82,14 @@ const store = new Vuex.Store({
           },
         });
     },
-    changeQuestionLabel(state, { pageKey, sectionKey, questionKey, newLabel }) {
+    [QUESTION.CHANGE_LABEL]: (state, { pageKey, sectionKey, questionKey, newLabel }) => {
       const questions = state.pages[pageKey].sections[sectionKey].questions;
       const newKey = makeNewKey(newLabel);
 
       state.pages[pageKey].sections[sectionKey].questions =
         reassignKeyAndName(questions, questionKey, newKey, newLabel, 'label');
     },
-    changeQuestionType(state, { pageKey, sectionKey, questionKey, newType }) {
+    [QUESTION.CHANGE_TYPE]: (state, { pageKey, sectionKey, questionKey, newType }) => {
       state.pages[pageKey].sections[sectionKey].questions[questionKey].type = newType;
     },
   },

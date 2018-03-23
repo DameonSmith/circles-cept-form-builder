@@ -28,6 +28,8 @@
 
 
 <script>
+import QUESTION from '../store/actions/questions';
+
 export default {
   props: [
     'question',
@@ -49,7 +51,7 @@ export default {
         newType: event.target.value,
       };
 
-      this.$store.commit('changeQuestionType', payload);
+      this.$store.commit(QUESTION.CHANGE_TYPE, payload);
     },
     changeQuestionLabel(event) {
       const payload = {
@@ -58,7 +60,16 @@ export default {
         questionKey: this.questionKey,
         newLabel: event.target.value,
       };
-      this.$store.commit('changeQuestionLabel', payload);
+      this.$store.commit(QUESTION.CHANGE_LABEL, payload);
+    },
+    changeQuestionDescription(event) {
+      const payload = {
+        pageKey: this.pageKey,
+        sectionKey: this.sectionKey,
+        questionKey: this.questionKey,
+        newDescription: event.target.value,
+      };
+      this.$store.commit(QUESTION.CHANGE_DESCRIPTION, payload);
     },
   },
 };
