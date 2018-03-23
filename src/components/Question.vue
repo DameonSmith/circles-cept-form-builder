@@ -22,7 +22,13 @@
       <div
         v-if="question.type === 'select'"
         class="select">
-        IS SELECT
+        <app-option
+          v-for="(option, index) of question.options"
+          v-on:optionChange="handleOptionChange"
+          :option="option"
+          :index="index"
+          :key="index"></app-option>
+        <button @click="addOption">Add Option</button>
       </div>
       <div
         v-if="question.type === 'radio'"
@@ -35,8 +41,12 @@
 
 <script>
 import QUESTION from '../store/actions/questions';
+import Option from './Option';
 
 export default {
+  components: {
+    'app-option': Option,
+  },
   props: [
     'question',
     'questionKey',
@@ -59,6 +69,15 @@ export default {
 
       this.$store.commit(QUESTION.CHANGE_TYPE, payload);
     },
+    addOption() {
+      const payload = {
+        pageKey: this.pageKey,
+        sectionKey: this.sectionKey,
+        questionKey: this.questionKey,
+        newOption: { label: 'New Option', value: 'new-val' },
+      };
+      this.$store.commit(QUESTION.ADD_OPTION, payload);
+    },
     changeQuestionLabel(event) {
       const payload = {
         pageKey: this.pageKey,
@@ -76,6 +95,16 @@ export default {
         newDescription: event.target.value,
       };
       this.$store.commit(QUESTION.CHANGE_DESCRIPTION, payload);
+    },
+    handleOptionChange(value) {
+      const payload = {
+        pageKey: this.pageKey,
+        sectionKey: this.sectionKey,
+        questionKey: this.questionKey,
+        changedOption: value,
+      };
+
+      this.$store.commit(QUESTION.CHANGE_OPTION, payload);
     },
   },
 };

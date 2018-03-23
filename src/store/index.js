@@ -98,6 +98,12 @@ const store = new Vuex.Store({
 
     [QUESTION.CHANGE_TYPE]: (state, { pageKey, sectionKey, questionKey, newType }) => {
       state.pages[pageKey].sections[sectionKey].questions[questionKey].type = newType;
+      if (newType === 'radio' || newType === 'select') {
+        Vue.set(
+          state.pages[pageKey].sections[sectionKey].questions[questionKey],
+          'options',
+          []);
+      }
     },
 
     [QUESTION.CHANGE_DESCRIPTION]: (
@@ -105,6 +111,32 @@ const store = new Vuex.Store({
       { pageKey, sectionKey, questionKey, newDescription },
     ) => {
       state.pages[pageKey].sections[sectionKey].questions[questionKey].description = newDescription;
+    },
+
+    [QUESTION.ADD_OPTION]: (
+      state,
+      { pageKey, sectionKey, questionKey, newOption },
+    ) => {
+      const question = state.pages[pageKey].sections[sectionKey].questions[questionKey];
+      if (question.type === 'radio' || question.type === 'select') {
+        state.pages[pageKey].sections[sectionKey].questions[questionKey].options.push(newOption);
+      }
+    },
+
+    [QUESTION.CHANGE_OPTION]: (
+      state,
+      { pageKey, sectionKey, questionKey, changedOption },
+    ) => {
+      const question = state.pages[pageKey].sections[sectionKey].questions[questionKey];
+      if (question.type === 'radio' || question.type === 'select') {
+        state.pages[pageKey].sections[sectionKey].questions[questionKey].options =
+          question.options.map((option, index) => {
+            if (index === changedOption.index) {
+              return changedOption.option;
+            }
+            return option;
+          });
+      }
     },
   },
 });
