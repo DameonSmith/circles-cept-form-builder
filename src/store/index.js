@@ -88,54 +88,50 @@ const store = new Vuex.Store({
         });
     },
 
-    [QUESTION.CHANGE_LABEL]: (state, { pageKey, sectionKey, questionKey, newLabel }) => {
-      const questions = state.pages[pageKey].sections[sectionKey].questions;
+    [QUESTION.CHANGE_LABEL]: (state, payload) => {
+      const { pageKey, sectionKey, questionKey, newLabel } = payload;
       const newKey = makeNewKey(newLabel);
+      const questions = state.pages[pageKey].sections[sectionKey].questions;
 
       state.pages[pageKey].sections[sectionKey].questions =
         reassignKeyAndName(questions, questionKey, newKey, newLabel, 'label');
     },
 
-    [QUESTION.CHANGE_TYPE]: (state, { pageKey, sectionKey, questionKey, newType }) => {
-      state.pages[pageKey].sections[sectionKey].questions[questionKey].type = newType;
+    [QUESTION.CHANGE_TYPE]: (state, payload) => {
+      const { pageKey, sectionKey, questionKey, newType } = payload;
+      const question = state.pages[pageKey].sections[sectionKey].questions[questionKey];
+      question.type = newType;
       if (newType === 'radio' || newType === 'select') {
         Vue.set(
-          state.pages[pageKey].sections[sectionKey].questions[questionKey],
+          question,
           'options',
           []);
       }
     },
 
-    [QUESTION.CHANGE_DESCRIPTION]: (
-      state,
-      { pageKey, sectionKey, questionKey, newDescription },
-    ) => {
+    [QUESTION.CHANGE_DESCRIPTION]: (state, payload) => {
+      const { pageKey, sectionKey, questionKey, newDescription } = payload;
       state.pages[pageKey].sections[sectionKey].questions[questionKey].description = newDescription;
     },
 
-    [QUESTION.ADD_OPTION]: (
-      state,
-      { pageKey, sectionKey, questionKey, newOption },
-    ) => {
+    [QUESTION.ADD_OPTION]: (state, payload) => {
+      const { pageKey, sectionKey, questionKey, newOption } = payload;
       const question = state.pages[pageKey].sections[sectionKey].questions[questionKey];
       if (question.type === 'radio' || question.type === 'select') {
-        state.pages[pageKey].sections[sectionKey].questions[questionKey].options.push(newOption);
+        question.options.push(newOption);
       }
     },
 
-    [QUESTION.CHANGE_OPTION]: (
-      state,
-      { pageKey, sectionKey, questionKey, changedOption },
-    ) => {
+    [QUESTION.CHANGE_OPTION]: (state, payload) => {
+      const { pageKey, sectionKey, questionKey, changedOption } = payload;
       const question = state.pages[pageKey].sections[sectionKey].questions[questionKey];
       if (question.type === 'radio' || question.type === 'select') {
-        state.pages[pageKey].sections[sectionKey].questions[questionKey].options =
-          question.options.map((option, index) => {
-            if (index === changedOption.index) {
-              return changedOption.option;
-            }
-            return option;
-          });
+        question.options = question.options.map((option, index) => {
+          if (index === changedOption.index) {
+            return changedOption.option;
+          }
+          return option;
+        });
       }
     },
   },
